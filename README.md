@@ -1,1 +1,1 @@
-# predicting_future_bitcoin_price
+# predicting future bitcoin prices
