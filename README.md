@@ -1,4 +1,3 @@
-# Predicting future bitcoin prices
 This code is part of an article that explores the potential use of the LSTM model for the purpose of Bitcoin price prediction.
 
 [Using machine learning to predict future bitcoin prices](https://medium.com/@derk_zomer/using-machine-learning-to-predict-future-bitcoin-prices-6637e7bfa58f)
@@ -31,21 +30,21 @@ To train our model we need training data. Any financial pricing data would suffi
 
 I collected this data myself using the [Kraken API](https://www.kraken.com/features/api), so it’s likely it contains gaps. But it’ll do for illustration purposes. You can find my data, and the complete source code [here](https://github.com/derkzomer/predicting-future-bitcoin-prices).
 
-<iframe src="https://medium.com/media/9d46d8c402962ef6cd788fe66d389c0e" frameborder=0></iframe>
+<script src="https://gist.github.com/derkzomer/850b37ba5a76132b772eedfe6509b429.js"></script>
 
 ## Data preparation
 
 First we start by importing all of the required packages, loading the dataset and removing the rows we are not interested in using.
 
-<iframe src="https://medium.com/media/6ccc4ee7632981e4ebdbe3a2fc77e5d0" frameborder=0></iframe>
+<script src="https://gist.github.com/derkzomer/e03725f83340924bfde16a6f2bf36072.js"></script>
 
 We split the dataset up into a training and test set, and standardise its features. Standardisation is good practice as it reduces overfitting in cases where variance for some features may be higher than others.
 
-<iframe src="https://medium.com/media/28958bab81c5416d888303f54e46750a" frameborder=0></iframe>
+<script src="https://gist.github.com/derkzomer/e589fb629b77a710fb3325e9de997596.js"></script>
 
 The LSTM model requires us to organise the data in blocks. Our data is grouped at one-minute intervals and we’ll use blocks of 50 minutes to predict the next block.
 
-<iframe src="https://medium.com/media/1e804e6ee63030ecf82676cddb38158f" frameborder=0></iframe>
+<script src="https://gist.github.com/derkzomer/cf4910fe254f5a052f49dd445a03ff0e.js"></script>
 
 ## The model
 
@@ -55,11 +54,11 @@ The model I’m using is relatively straightforward, containing 5 hidden layers 
 
 Deciding on hyper-parameters is more art than science, and it’s worth testing out multiple options to understand what works best on your test data and in production. Optimising your hyper-parameters is outside of the scope of this article but some [great resources](https://machinelearningmastery.com/tune-lstm-hyperparameters-keras-time-series-forecasting/) exist online.
 
-<iframe src="https://medium.com/media/7fb71cf5faf93476bbb90e620ffeca87" frameborder=0></iframe>
+<script src="https://gist.github.com/derkzomer/b2529236a91e1b918a91578af9daeef4.js"></script>
 
 Now that we have a model that we can use to build predictions we can take a look at how it performs against our test data. The graph below plots the test data (y_test) prediction (y_hat) of both the ask price and bid price. As we can see the predictive values match the training data quite well.
 
-<iframe src="https://medium.com/media/976cb4b2dd69e30a135a09f70442c070" frameborder=0></iframe>
+<script src="https://gist.github.com/derkzomer/03f807734a7a2274bb6aa072d4316d7b.js"></script>
 
 Cool! So this means I can predict Bitcoin prices now?
 
@@ -73,7 +72,7 @@ If we wanted to forecast the price 20 minutes from now one option would be to ru
 
 The below code does exactly that, and plots both the bid and ask price against the test data. Unsurprisingly it doesn’t really tell you much, with this particular prediction incorrectly forecasting a price increase.
 
-<iframe src="https://medium.com/media/9ebfd51d1e04beada35b7d9bdc0dd8b0" frameborder=0></iframe>
+<script src="https://gist.github.com/derkzomer/7e065991a3b714b06c020076dd80537c.js"></script>
 
 But will this be the case for the remainder of the test data? As the training data consists out of 6,661 rows we have 133 windows over which we can predict a trade.
 
@@ -85,13 +84,13 @@ Interestingly it appears that the trades that provide you with an actual net ben
 
 Likely too good to be true.
 
-<iframe src="https://medium.com/media/c6c2b03a1ab6f21c592aa589450fd535" frameborder=0></iframe>
+<script src="https://gist.github.com/derkzomer/decf4c4b1aed545b807aa08780372060.js"></script>
 
 Anyone that has ever bought BTC or any financial instrument on an exchange would now tell me you can’t actually sell at market at the ask price. The bid/ask spread would stop us from taking advantage of any increase in price, and only if the appreciation of the asset was higher than the spread would we be able to profit from this trade.
 
 Once we model this into our prediction it becomes clear the model isn’t able to identify enough profitable trades for this to become our golden goose. Our same $100 would now turn a $13 loss!
 
-<iframe src="https://medium.com/media/54134173da057161ae9d2040b9380995" frameborder=0></iframe>
+<script src="https://gist.github.com/derkzomer/435d0417cb8ff3c50323094c55e6e249.js"></script>
 
 ## Conclusion
 
